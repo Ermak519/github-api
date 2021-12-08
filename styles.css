@@ -1,0 +1,99 @@
+html {
+    box-sizing: border-box;
+    font-family: 'TT Lakes Thin';
+    margin: 0;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+ul{
+    padding: 0;
+    margin: 0;
+}
+li{
+    list-style: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+}
+p{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background-color: #C4C4C4;
+}
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2vh;
+    margin-left: 35vw;
+}
+.github-api__form{
+    margin-bottom: 265px;
+}
+.github-api__form input{
+    width: 500px;
+    height: 61px;
+    padding: 5px 13px;
+    font-family: 'Roboto', 'san-serif';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 48px;
+    line-height: 56px;
+    border: none;
+    color: #000000;
+}
+input:focus{
+    border: none;
+}
+.user__list{
+    display: flex;
+    flex-direction: column;
+}
+.user__item{
+    display: flex;
+}
+.github-api__list{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+.github-api__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 503px;
+    min-height: 101px;
+    background-color: #E27BEB;
+    padding: 8px 16px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 30px;
+    line-height: 35px;
+    font-family: 'Roboto', 'san-serif';
+    color: #000000;
+    border: 1px solid #000000;
+}
+.btn{
+    width: 42px;
+    height: 38px;
+    margin-right: 26px;
+    transform: translateY(15px);
+}
+
+.btn::before{
+    content: '';
+    display: block;
+    border: 2px solid #FF0000;
+    border-radius: 5px;
+    transform: rotate(45deg);
+}
+.btn::after{
+    content: '';
+    display: block;
+    border: 2px solid #FF0000;
+    transform: translateY(-100%) rotate(-45deg);
+}
