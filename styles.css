@@ -56,6 +56,9 @@ input:focus{
 .user__item{
     display: flex;
 }
+.user__item p:last-child{
+    padding-left: 5px;
+}
 .github-api__list{
     display: flex;
     flex-direction: column;
