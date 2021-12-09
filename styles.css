@@ -24,17 +24,13 @@ p{
 
 body{
     background-color: #C4C4C4;
+    padding: 0;
 }
 .wrapper{
-    display: flex;
-    flex-direction: column;
-    margin-top: 2vh;
     margin-left: 35vw;
+    margin-top: 100px;
 }
-.github-api__form{
-    margin-bottom: 265px;
-}
-.github-api__form input{
+.dropdown__search{
     width: 500px;
     height: 61px;
     padding: 5px 13px;
@@ -46,8 +42,28 @@ body{
     border: none;
     color: #000000;
 }
-input:focus{
+.dropdown__search:focus{
     border: none;
+}
+.dropdown__list{
+    margin-bottom: 45px;
+    display: block;
+}
+.dropdown__item{
+    width: 500px;
+    height: 44px;
+    background: #E3E3E3;
+    border: 2px solid #000000;
+    font-family: 'Roboto', 'san-serif';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 30px;
+    line-height: 35px;
+    color: #000000;
+    padding-left: 13px;
+}
+.dropdown__item:hover{
+    background: #65CDF9;
 }
 .user__list{
     display: flex;
