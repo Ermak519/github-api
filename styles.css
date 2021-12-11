@@ -30,6 +30,9 @@ body{
     margin-left: 35vw;
     margin-top: 100px;
 }
+.dropdown{
+    margin-bottom: 245px;
+}
 .dropdown__search{
     width: 500px;
     height: 61px;
@@ -46,8 +49,12 @@ body{
     border: none;
 }
 .dropdown__list{
+    display: none;
+}
+.dropdown__list.show{
     margin-bottom: 45px;
     display: block;
+    transition: 0.5s linear;
 }
 .dropdown__item{
     width: 500px;
