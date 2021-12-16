@@ -14,7 +14,6 @@ const getGithubData = async (query) => {
             item.textContent = items[i].name;
             item.dataset.idrepo = items[i].id
         });
-        return items;
     } else {
         dropdownList.classList.remove('show');
     }
