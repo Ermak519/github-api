@@ -2,21 +2,26 @@ const githubList = document.querySelector('.github-api__list');
 const input = document.querySelector('input');
 const dropdownList = document.querySelector('.dropdown__list')
 const dropdownItems = document.querySelectorAll('.dropdown__item')
-let arr = []
+let arrQuery = []
 
-async function getGithubData(query) {
-    !query ? dropdownList.classList.remove('show') : dropdownList.classList.add('show');
+const getGithubData = async (query) => {
+    if (query) {
+        const data = await fetch(`https://api.github.com/search/repositories?q=${query}+&sort=stars`);
+        !data ? dropdownList.classList.remove('show') : dropdownList.classList.add('show');
+        const { items } = await data.json();
+        arrQuery = items.slice()
+        dropdownItems.forEach((item, i) => {
+            item.textContent = items[i].name;
+            item.dataset.idrepo = items[i].id
+        });
+        return items;
+    } else {
+        dropdownList.classList.remove('show');
+    }
 
-    const data = await fetch(`https://api.github.com/search/repositories?q=${query}+&sort=stars`);
-    const { items } = await data.json();
-    arr = items.slice()
-    dropdownItems.forEach((item, i) => {
-        item.textContent = items[i].name;
-        item.dataset.idrepo = items[i].id
-    })
 }
 
-function githubCard(user) {
+const addGithubCard = (user) => {
     const { name, owner, stargazers_count } = user
     const listItem = document.createElement('li');
     listItem.classList.add("github-api__item", 'user');
@@ -35,19 +40,21 @@ function githubCard(user) {
                     <p>${stargazers_count}</p>
                 </li>
             </ul>
-            <div class="btn">
-            </div>
+            <div class="cross-btn">
+                    <img src="./src/cross7.svg" alt="1">
+                    <img src="./src/cross8.svg" alt="1">
+                </div>
         `;
     listItem.innerHTML = htmlNode;
     githubList.appendChild(listItem);
 
-    const btn = listItem.querySelector('.btn')
+    const btn = listItem.querySelector('.cross-btn')
     btn.addEventListener('click', () => {
         listItem.remove()
     });
 };
 
-function debounce(fn, debounceTime) {
+const debounce = (fn, debounceTime) => {
     let timeOut;
     return function () {
         const wrapper = () => { fn.apply(this, arguments) }
@@ -56,26 +63,18 @@ function debounce(fn, debounceTime) {
     }
 };
 
-function onChange(e) {
-    getGithubData(e.target.value)
+const onChange = async (e) => {
+    await getGithubData(e.target.value);
 }
-
-input.addEventListener('keyup', debounce(onChange, 180));
 
 dropdownItems.forEach((item) => {
     item.addEventListener('click', () => {
         dropdownList.classList.remove('show');
         input.value = '';
+        const repo = arrQuery.filter(obj => obj.id == item.dataset.idrepo)
+        addGithubCard(...repo);
     });
-    item.addEventListener('click', () => {
-        const repo = arr.filter(obj => obj.id == item.dataset.idrepo)
-        githubCard(...repo)
-    })
-})
+});
 
-
-
-
-
-
+input.addEventListener('keyup', debounce(onChange, 180));
 
