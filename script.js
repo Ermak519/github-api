@@ -2,14 +2,16 @@ const githubList = document.querySelector('.github-api__list');
 const input = document.querySelector('input');
 const dropdownList = document.querySelector('.dropdown__list')
 const dropdownItems = document.querySelectorAll('.dropdown__item')
-let arrQuery = []
+const arrQuery = []
 
 const getGithubData = async (query) => {
     if (query) {
         const data = await fetch(`https://api.github.com/search/repositories?q=${query}+&sort=stars`);
         !data ? dropdownList.classList.remove('show') : dropdownList.classList.add('show');
         const { items } = await data.json();
-        arrQuery = items.slice()
+        items.forEach((obj) => {
+            arrQuery.push(obj)
+        })
         dropdownItems.forEach((item, i) => {
             item.textContent = items[i].name;
             item.dataset.idrepo = items[i].id
@@ -76,4 +78,3 @@ dropdownItems.forEach((item) => {
 });
 
 input.addEventListener('keyup', debounce(onChange, 180));
-
