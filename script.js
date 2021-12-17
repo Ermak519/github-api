@@ -1,26 +1,18 @@
 const githubList = document.querySelector('.github-api__list');
 const input = document.querySelector('input');
-const dropdownList = document.querySelector('.dropdown__list')
+const dropdownList = document.querySelector('.dropdown__list');
 const dropdownItems = document.querySelectorAll('.dropdown__item')
-let arrQuery = []
+const arrQuery = []
 
 const getGithubData = async (query) => {
     if (query) {
         const data = await fetch(`https://api.github.com/search/repositories?q=${query}+&sort=stars`);
-        !data ? dropdownList.classList.remove('show') : dropdownList.classList.add('show');
         const { items } = await data.json();
-        arrQuery = items.slice()
-        dropdownItems.forEach((item, i) => {
-            item.textContent = items[i].name;
-            item.dataset.idrepo = items[i].id
-        });
-    } else {
-        dropdownList.classList.remove('show');
+        return items
     }
-
 }
 
-const addGithubCard = (user) => {
+const renderGithubCard = (user) => {
     const { name, owner, stargazers_count } = user
     const listItem = document.createElement('li');
     listItem.classList.add("github-api__item", 'user');
@@ -62,17 +54,37 @@ const debounce = (fn, debounceTime) => {
     }
 };
 
-const onChange = async (e) => {
-    await getGithubData(e.target.value);
+const addItem = (e) => {
+    const elem = e.target
+    dropdownList.classList.remove('show');
+    input.value = '';
+    const repo = arrQuery.filter(obj => obj.id == elem.dataset.idrepo)
+    renderGithubCard(...repo);
+    elem.removeEventListener('click', addItem)
 }
 
-dropdownItems.forEach((item) => {
-    item.addEventListener('click', () => {
+const renderListItems = (data) => {
+    if(data){
+        dropdownList.classList.add('show');
+        dropdownItems.forEach((item, i) => {
+            item.textContent = data[i].name;
+            item.dataset.idrepo = data[i].id
+            arrQuery[i] = data[i]
+            item.addEventListener('click', addItem)
+        });
+    } else {
         dropdownList.classList.remove('show');
-        input.value = '';
-        const repo = arrQuery.filter(obj => obj.id == item.dataset.idrepo)
-        addGithubCard(...repo);
-    });
-});
+    }
+}
 
-input.addEventListener('keyup', debounce(onChange, 180));
+const main = async (e) => {
+    const searchedList  = await getGithubData(e.target.value);
+    renderListItems(searchedList)
+    console.log(arrQuery)
+}
+
+input.addEventListener('keyup', debounce(main, 500));
+
+dropdownItems.forEach((item) => {
+    item.addEventListener('click', addItem)
+})
