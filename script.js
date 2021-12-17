@@ -1,14 +1,19 @@
 const githubList = document.querySelector('.github-api__list');
 const input = document.querySelector('input');
 const dropdownList = document.querySelector('.dropdown__list');
-const dropdownItems = document.querySelectorAll('.dropdown__item')
-const arrQuery = []
+const dropdownItems = document.querySelectorAll('.dropdown__item');
+const dropdownError = document.querySelector('.dropdown__error');
+const arrQuery = [];
 
 const getGithubData = async (query) => {
-    if (query) {
+    const regInput = /[a-zA-Z, 0-9]/gm
+    if (query.search(regInput) != -1) {
+        dropdownError.classList.remove('show');
         const data = await fetch(`https://api.github.com/search/repositories?q=${query}+&sort=stars`);
         const { items } = await data.json();
         return items
+    } else {
+        dropdownError.classList.add('show');
     }
 }
 
@@ -74,6 +79,7 @@ const renderListItems = (data) => {
         });
     } else {
         dropdownList.classList.remove('show');
+        dropdownError.classList.add('show');
     }
 }
 
