@@ -71,6 +71,7 @@ const addItem = (e) => {
 const renderListItems = (data) => {
     if(data){
         dropdownList.classList.add('show');
+        dropdownError.classList.remove('show');
         dropdownItems.forEach((item, i) => {
             item.textContent = data[i].name;
             item.dataset.idrepo = data[i].id
